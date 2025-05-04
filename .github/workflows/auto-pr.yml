@@ -6,38 +6,14 @@ on:
       - "main"
 
 permissions:
-  contents: write
   pull-requests: write
 
 jobs:
-  create_pr_repo_sync:
+  pull-request:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Setup Git config
+      - name: pull-request
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-
-      - name: Fetch main branch for comparison
-        run: git fetch origin main
-
-      - name: Skip if no diff with main
-        run: |
-          if git diff --quiet origin/main...HEAD; then
-            echo "✅ Tidak ada perubahan dibanding main. Skip PR."
-            exit 78
-          fi
-
-      - name: Create pull request
-        id: open-pr
-        uses: repo-sync/pull-request@v2
-        with:
-          destination_branch: "main"
-          pr_title: "feat: PLACEHOLDER TITLE"
-          pr_template: ".github/pull_request_template.md"
-          pr_reviewer: "sakatimuna7"
-          pr_draft: true
+          gh_pr_up() { gh pr create $* || gh pr edit $* }
+          gh_pr_up --title "My pull request" --body "Description"
