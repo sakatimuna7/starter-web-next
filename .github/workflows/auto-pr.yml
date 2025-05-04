@@ -6,14 +6,28 @@ on:
       - "main"
 
 permissions:
+  contents: write
   pull-requests: write
 
 jobs:
   pull-request:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
-      - name: pull-request
+
+      - name: Create or update PR using GitHub CLI
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }} # Token dari Secrets
         run: |
-          gh_pr_up() { gh pr create $* || gh pr edit $* }
-          gh_pr_up --title "My pull request" --body "Description"
+          gh_pr_up() {
+            gh pr create "$@" || gh pr edit "$@"
+          }
+
+          echo "🤖 PR Otomatis dari \`${GITHUB_REF_NAME}\` ke \`main\`" > pr-body.md
+          echo "" >> pr-body.md
+          cat .github/PULL_REQUEST_TEMPLATE.md >> pr-body.md
+
+          gh_pr_up --title "Auto PR from ${GITHUB_REF_NAME}" \
+                   --body-file pr-body.md \
+                   --base main
