@@ -1,9 +1,9 @@
-name: Auto Pull Request to Main (With Diff Check)
+name: Auto Pull Request to Main (With Diff Check + Safe Branch)
 
 on:
   push:
     branches:
-      - '**' # semua branch
+      - '**' # Semua branch
 
 permissions:
   contents: write
@@ -11,11 +11,13 @@ permissions:
 
 jobs:
   auto-pr:
-    if: github.ref != 'refs/heads/main' # skip kalau yang push ke main
+    if: github.ref != 'refs/heads/main' # Skip kalau push ke main
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # penting agar git diff bisa membandingkan
 
       - name: Setup Git user
         run: |
@@ -34,15 +36,16 @@ jobs:
             echo "no_changes=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Create Pull Request to main
+      - name: Create Pull Request to main (from safe auto-pr branch)
         if: steps.check_diff.outputs.no_changes == 'false'
         id: cpr
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'chore: auto-pr to main from ${{ github.ref_name }}'
-          branch: ${{ github.ref_name }}
+          branch: auto-pr/${{ github.ref_name }} # branch baru
           base: main
+          delete-branch: true # hapus branch auto jika sudah merge
           title: 'Auto PR from ${{ github.ref_name }} to main'
           body: |
             🤖 PR ini dibuat otomatis karena ada push ke branch `${{ github.ref_name }}`.
