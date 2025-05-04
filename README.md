@@ -1,40 +1,150 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Next.js Custom Template – Newus PR Boilerplate
 
-## Getting Started
+Selamat datang di proyek berbasis **Next.js** dengan kustomisasi internal dari tim Newus Technology. Template ini menggunakan boilerplate `pr-template-nextjs` sebagai fondasi utama, dikembangkan untuk mempercepat pengembangan aplikasi web yang modern, cepat, dan scalable.
 
-First, run the development server:
+---
+
+## 📁 Struktur Folder
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+.
+├── public/                 # Static assets
+├── src/
+│   ├── components/         # Reusable components (UI, layouts, modals, etc.)
+│   ├── constants/          # Global constants (e.g., routes, configs)
+│   ├── context/            # React context providers
+│   ├── hooks/              # Custom React hooks
+│   ├── lib/                # Utility functions or API wrappers
+│   ├── pages/              # Next.js page routing
+│   ├── services/           # API service layers (axios/fetch)
+│   ├── styles/             # Global styles, Tailwind config
+│   ├── types/              # TypeScript interfaces and types
+│   └── utils/              # Helper utilities
+├── .env.example            # Contoh environment config
+├── next.config.js          # Next.js config
+├── tailwind.config.js      # Tailwind CSS config
+└── README.md               # Dokumentasi proyek
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚙️ Teknologi dan Library
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework**: Next.js (App Router / Pages Router)
+- **Styling**: Tailwind CSS + Custom Theme
+- **State Management**: React Context / Zustand
+- **Form Handling**: React Hook Form + Yup
+- **HTTP Client**: fetch bawaan dengan custom fetching
+- **UI Component**: shadcn/ui (Headless UI + Radix UI)
+- **Icon Library**: lucide-react
+- **Linting**: ESLint, Prettier, Husky
+- **CI/CD Ready**: GitHub Actions
+- **Deployment**:  VPS
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🧑‍💻 Cara Menjalankan Project
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 1. Clone Repositori
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+git clone https://github.com/nama-user/nama-repo.git
+cd nama-repo
+```
 
-## Deploy on Vercel
+### 2. Install Dependency
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm install
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 3. Buat file `.env.local`
 
-# starter-web-next
+```bash
+cp .env.example .env.local
+```
 
-update redme test lagi lagi dong
+Isi konfigurasi sesuai environment Anda (lihat bagian `.env` di bawah).
+
+### 4. Jalankan di Lokal
+
+```bash
+pnpm dev
+```
+
+Akses aplikasi di: [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 🔐 Environment Variable (.env)
+
+| Key                  | Keterangan                              |
+| -------------------- | --------------------------------------- |
+| NEXT_PUBLIC_API_URL  | Base URL untuk API backend              |
+
+
+
+---
+
+## ✅ Standar Kode
+
+- Gunakan `pnpm lint` sebelum push
+- Format otomatis dengan Prettier: `pnpm format`
+- Konvensi commit menggunakan [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+- Gunakan `GitHub Pull Request` untuk semua perubahan (auto lint & test via CI)
+
+---
+
+## 📦 Fitur Khusus Template
+
+- ✅ Autentikasi JWT (client-side & server-side protection)
+- ✅ Layout dinamis (dengan metadata Head otomatis)
+- ✅ Konfigurasi akses role-based (Admin/User)
+- ✅ Dark mode siap pakai (opsional)
+- ✅ Komponen modal, toast, alert dialog custom
+- ✅ Global loading & error boundary
+- ✅ Integrasi socket.io siap (jika diperlukan)
+
+---
+
+## 🧪 Testing (Opsional)
+
+```bash
+# Unit test dengan Vitest atau Jest
+pnpm test
+```
+
+---
+
+## 🚀 Deployment
+
+- Pastikan variabel `.env` sudah disesuaikan untuk production.
+- Untuk deploy ke **Vercel**:
+  - Connect GitHub repository.
+  - Pastikan env key di-setting via dashboard.
+- Untuk VPS, gunakan build + serve:
+
+```bash
+pnpm build
+pnpm start
+```
+
+---
+
+## 📋 Lisensi
+
+Open Source
+
+---
+
+## ✨ Credits
+
+Template ini di setup oleh @sakatimuna7 dan kolaborasi oleh @aldngrha
+
+---
+
+## 🙋 FAQ
+
+**Q: Bisa digunakan untuk proyek publik?**  
+A: Ya, namun direkomendasikan untuk proyek private atau internal dengan flow tim terstruktur.
+
