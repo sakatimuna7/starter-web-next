@@ -31,3 +31,28 @@ jobs:
           gh_pr_up --title "Auto PR from ${GITHUB_REF_NAME}" \
                    --body-file pr-body.md \
                    --base main
+
+      - name: Add label to auto-generated PR
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          PR_URL=$(gh pr view --json url -q .url)
+          gh pr edit "$PR_URL" --add-label "auto-pr"
+
+      - name: Mention PR author with reminder
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          PR_URL=$(gh pr view --json url -q .url)
+          gh pr comment "$PR_URL" --body "👋 Hi @${{ github.actor }}, PR ini dibuat otomatis dari branch \`${{ github.ref_name }}\`.
+
+          📌 *Mohon edit kembali bagian deskripsi PR sesuai dengan pekerjaan yang dilakukan.*
+
+          Checklist bantuannya:
+
+          - [ ] Jelaskan fitur atau perbaikan
+          - [ ] Tandai breaking changes kalau ada
+          - [ ] Tambahkan referensi issue/tiket
+          - [ ] Pastikan commit sesuai standar
+
+          🙏 Terima kasih!"
